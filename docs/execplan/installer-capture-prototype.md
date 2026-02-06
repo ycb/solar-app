@@ -13,7 +13,7 @@ Installers need a mobile-first flow that guides them through inspection evidence
 - [x] (2026-02-06 00:30Z) Finalize wireframe content updates to reflect new status model, media rules, and auto-check retry messaging.
 - [x] (2026-02-06 01:20Z) Implement shared data model and UI modules for the capture flow in React.
 - [x] (2026-02-06 01:20Z) Replace the component gallery with the actual 3-5 screen linear flow (Back/Next).
-- [ ] Validate the flow in the dev server and capture the current state in this plan.
+- [x] (2026-02-06 01:35Z) Validate the flow in the dev server and capture the current state in this plan.
 
 ## Surprises & Discoveries
 
@@ -106,7 +106,7 @@ These edits are front-end only and can be reapplied safely. If a screen looks wr
 ## Artifacts and Notes
 
 Capture a short note after validation:
-  - "Dev server runs at http://localhost:5173 and screens switch correctly."
+  - "Dev server runs at http://localhost:5174 and screens switch correctly."
 
 ## Interfaces and Dependencies
 
