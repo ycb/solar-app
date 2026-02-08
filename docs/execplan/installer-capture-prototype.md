@@ -6,7 +6,7 @@ This repo includes `PLANS.md` at the repository root. This ExecPlan must be main
 
 ## Purpose / Big Picture
 
-Installers need a mobile-first flow that guides them through inspection evidence capture without code knowledge. After this change, a user can open the prototype, step through a 3-5 screen capture flow, see clear progress and pass/fail readiness, and understand whether each capture is pending, captured, accepted, or needs retry. The flow must support seven required capture groups and clearly indicate whether a capture expects a photo or a video.
+Installers need a mobile-first flow that guides them through inspection evidence capture without code knowledge. After this change, a user can open the prototype, step through a multi-screen capture flow, see clear progress and status, and understand whether each capture is pending, captured, accepted, or needs retry. The flow must support the revised array/racking scope and clearly indicate whether each capture expects a photo or a video.
 
 ## Progress
 
@@ -22,8 +22,8 @@ Installers need a mobile-first flow that guides them through inspection evidence
 
 ## Decision Log
 
-- Decision: Use seven required capture groups with one video item (array context + attachment) and photo for the rest, including main service panel.
-  Rationale: Video is best when multiple angles are needed; photos are sufficient for single-view items.
+- Decision: Use a Racking + Array step with three fully prototyped substeps (penetrations photos, edge alignment video, perimeter setback video), plus remaining photo-only steps.
+  Rationale: This covers the core inspector questions while keeping the flow one task at a time.
   Date/Author: 2026-02-06 / Codex.
 
 - Decision: Use per-item states Pending, Captured, Accepted, Retry and overall states Not started, In progress, Complete.
@@ -40,35 +40,37 @@ Installers need a mobile-first flow that guides them through inspection evidence
 
 ## Context and Orientation
 
-The prototype lives in a Vite + React + Tailwind front-end. The main entry is `src/App.tsx`, which renders the linear flow prototype. Styles are in `src/index.css` and `tailwind.config.cjs`. The wireframe content is documented in `docs/WIREFRAMES.md`. Baseline requirements are in `docs/BASELINE.md` and `docs/PRODUCT_GOALS.md`. The specific permitted equipment list and project context are in `docs/PROJECT_DEFAULTS.md`, and the Job Overview screen should surface a compact summary from that file. The logo to use is `assets/logo.svg`. There is no backend.
+The prototype lives in a Vite + React + Tailwind front-end. The main entry is `src/App.tsx`, which renders the expanded flow prototype. Styles are in `src/index.css` and `tailwind.config.cjs`. The wireframe content is documented in `docs/WIREFRAMES.md`. Baseline requirements are in `docs/BASELINE.md` and `docs/PRODUCT_GOALS.md`. The specific permitted equipment list and project context are in `docs/PROJECT_DEFAULTS.md`, and the Project Details screen should surface the equipment list. The logo to use is `assets/logo.svg`. There is no backend.
 
-The capture flow requires seven groups:
-1) Array context + attachment (Video)
+The capture flow requires seven steps:
+1) Racking + Array (substeps: roof penetrations photos, array edge alignment video, array perimeter setback video)
 2) Inverter identity + clearance (Photo)
 3) Battery location + clearance (Photo)
 4) Disconnects (PV + ESS) (Photo)
-5) Fire access pathways (Photo)
-6) Labels / placards (Photo)
-7) Main service panel (Photo)
+5) Labels / placards (Photo)
+6) Main service panel (Photo)
+7) Conduit + wiring (Photo)
 
 Per-item states are: Pending, Captured, Accepted, Retry. Overall states are: Not started, In progress, Complete.
 
 ## Plan of Work
 
-First, update `docs/WIREFRAMES.md` to reflect the status model (Not started / In progress / Complete) and the media rules (video for array, photos elsewhere). Make sure the screen descriptions use pass/fail language (Incomplete / Complete) rather than Draft/Ready. Add an equipment summary section on the Job Overview screen that mirrors the permitted equipment list in `docs/PROJECT_DEFAULTS.md`. Add an auto-check error example that returns a specific issue and prompts a retry.
+First, update `docs/WIREFRAMES.md` to reflect the expanded flow and status model (Not started / In progress / Complete) and the media rules (video for array setbacks + edge alignment, photos for penetrations and other items). Make sure the screen descriptions use pass/fail language (Incomplete / Complete) rather than Draft/Ready. Ensure the Project Details screen includes the equipment list from `docs/PROJECT_DEFAULTS.md`. Add an auto-check error example that returns a specific issue and prompts a retry.
 
 Next, replace the component gallery in `src/App.tsx` with the actual 3-5 screen flow. Keep the SolarAPP+ visual language but focus on one task at a time for the capture screen. Use a linear flow with Back/Next actions rather than a tabbed screen switcher.
 
 Define a shared data model for capture items in `src/App.tsx` or a new file such as `src/data/captureItems.ts`. Each item should include id, title, prompt, captureType (Photo or Video), and status. Use this data to render the checklist, current task, and review grid.
 
 Build the following screens:
-- Job Overview: project summary, overall status (Not started / In progress / Complete), a compact permitted equipment summary from `docs/PROJECT_DEFAULTS.md`, the logo from `assets/logo.svg`, and a primary Start Capture action.
-- Checklist + Progress: list all seven items with capture type pills and status chips.
-- Current Task: one item at a time with guidance and a single capture CTA.
-- Review + Readiness: media thumbnails, photo vs video indicators, per-item status, pass/fail readiness, and at least one auto-check error with a specific retry reason.
-- Submit: completion summary and a submit action (mock).
+- Projects List: Pending/Complete tabs, table of projects, Photos Needed row is actionable.
+- Project Details: customer + system details and equipment list, Start/Continue Capture CTA.
+- Capture Overview: accordion of steps with status, media type, and counts; opens first incomplete step.
+- Step-level Overview: accordion of substeps with acceptance criteria; Start/Continue capture per substep.
+- Capture Task Overview (Hub): instruction, thumbnail grid, count, Add capture CTA, Done disabled until minimum accepted.
+- Camera (Minimal): shutter + cancel only.
+- Inline Validation (Transient): checking state, accepted auto-return, retry feedback with retake/cancel.
 
-Ensure thumbnails show a clear photo vs video indicator. Do not include non-image inputs. The readiness button should be disabled until all items are Accepted by the auto-check.
+Ensure the checklist shows required media type and counts, and the task hub shows captured thumbnails. Do not include non-image inputs. The Done action should remain disabled until the minimum required captures are Accepted by the auto-check.
 
 Finally, update `docs/PRODUCT_GOALS.md` and `docs/BASELINE.md` if any media rules or status wording changed in the implementation.
 
@@ -76,7 +78,7 @@ Finally, update `docs/PRODUCT_GOALS.md` and `docs/BASELINE.md` if any media rule
 
 1) Update wireframe content.
    - Edit `docs/WIREFRAMES.md` to align with status and media rules.
-   - Add a permitted equipment summary section on the Job Overview screen based on `docs/PROJECT_DEFAULTS.md`.
+   - Add the equipment list on the Project Details screen based on `docs/PROJECT_DEFAULTS.md`.
    - Add an auto-check error example with a specific retry reason.
 
 2) Implement capture flow screens.
@@ -92,12 +94,15 @@ Finally, update `docs/PRODUCT_GOALS.md` and `docs/BASELINE.md` if any media rule
 ## Validation and Acceptance
 
 Start the dev server and verify:
-- The prototype shows five screens in a linear flow (Back/Next).
-- The checklist renders seven capture groups with correct media types.
-- The current task screen focuses on one item at a time.
-- The review screen shows pass/fail readiness, photo/video indicators, and a retry reason from an auto-check.
-- Status chips display Pending, Captured, Accepted, Retry.
-- Overall status reads Not started, In progress, or Complete based on item states.
+- Projects list shows Pending/Complete tabs with one active Photos Needed row.
+- Project details shows equipment list with two columns (count + type).
+- Capture overview accordion opens to the first incomplete step.
+- Step-level overview lists substeps and acceptance criteria.
+- Capture task hub shows thumbnails, count, and Add/Done CTAs.
+- Camera screen is minimal (shutter + cancel only).
+- Validation shows checking state, then accepted (auto-return) or retry with specific feedback.
+- Status labels read Not started, In progress, or Complete based on capture counts.
+- Done is disabled until the minimum required captures are accepted.
 
 ## Idempotence and Recovery
 
@@ -113,7 +118,7 @@ Capture a short note after validation:
 Use existing dependencies in `package.json`: React, Vite, Tailwind. Do not add new libraries unless needed for layout. All state should be local to the prototype.
 
 Change note: This ExecPlan was created to satisfy the requirement to use ExecPlans for complex, multi-screen changes.
-Change note: Updated plan to reference `docs/PROJECT_DEFAULTS.md` and require an equipment summary on the Job Overview screen.
-Change note: Updated plan to set main service panel to photo, require auto-check retry messaging, use a linear flow, and use `assets/logo.svg` in the Job Overview.
+Change note: Updated plan to reference `docs/PROJECT_DEFAULTS.md` and require an equipment list on the Project Details screen.
+Change note: Updated plan to set main service panel to photo, require auto-check retry messaging, use a linear flow, and use `assets/logo.svg` in the header.
 Change note: Marked wireframe updates as complete and added explicit auto-check acceptance decision in the Decision Log.
 Change note: Implemented the linear flow screens in `src/App.tsx` and updated progress status.

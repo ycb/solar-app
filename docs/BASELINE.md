@@ -1,15 +1,15 @@
 Recommended v1 capture set 
 
-If you want to keep the prototype disciplined while meeting scope, capture these 7 groups:
-	1.	Array context + attachment
+If you want to keep the prototype disciplined while meeting scope, capture these 7 steps:
+	1.	Racking + Array (substeps: roof penetrations photos, array edge alignment video, array perimeter setback video)
 	2.	Inverter identity + clearance
 	3.	Battery location + clearance
 	4.	Disconnects (PV + ESS)
-	5.	Fire access pathways
-	6.	Labels / placards
-	7.	Main service panel
+	5.	Labels / placards
+	6.	Main service panel
+	7.	Conduit + wiring
 
-This set covers the required verification areas and includes a single required video.
+This set covers the required verification areas and includes two required videos (array setbacks and edge alignment).
 
 Below is a generalized California baseline “required evidence checklist” for a residential rooftop solar + battery (ESS) final inspection, abstracted across AHJs. This is not code text and not jurisdiction-specific—it’s the common denominator most inspectors implicitly expect to verify.
 
@@ -50,6 +50,8 @@ Purpose: structural + electrical safety
 	•	Conduit routing from array (as applicable)
 
 Common failure: missing context or unclear attachment detail.
+
+V1 capture guidance: use short videos for array setbacks and edge alignment, and a series of photos for roof penetrations.
 
 ⸻
 

@@ -4,7 +4,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        display: ["'Fraunces'", 'serif'],
+        display: ["'Space Grotesk'", 'sans-serif'],
         sans: ["'Space Grotesk'", 'sans-serif']
       },
       colors: {
