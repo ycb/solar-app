@@ -28,3 +28,9 @@ yarn-error.log*
 
 # Misc
 *.log
+
+# Codex + build artifacts
+.codex/
+*.tsbuildinfo
+vite.config.d.ts
+vite.config.js
