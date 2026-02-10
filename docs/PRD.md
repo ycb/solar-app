@@ -2,7 +2,7 @@
 
 ## Summary
 
-Build a mobile-first prototype that guides installers through a linear pre-inspection capture flow for residential solar + battery installs. The product enforces photo/video requirements, runs an automated quality check, and provides a simple pass/fail readiness state before submission.
+Build a mobile-first prototype that guides installers through a linear pre-inspection capture flow for residential solar + battery installs. The product enforces photo/video requirements, runs an automated quality check, and provides a simple inspection-readiness state before submission.
 
 ## Goals
 
@@ -23,20 +23,20 @@ Build a mobile-first prototype that guides installers through a linear pre-inspe
 ## Assumptions
 
 - Standalone prototype (not embedded in SolarAPP+).
-- Exactly one required video (array context + attachment); all other items are photos.
+- Two required videos (array setback for 3 ft clearance, and array edge alignment); all other items are photos.
 - Acceptable imagery is well-lit, legible, and shows context plus detail.
 
 ## Evidence Required (v1)
 
-The workflow must include the main service panel. The required capture groups are:
+The workflow must include the main service panel. The required capture steps are:
 
-1. Array context + attachment (video)
+1. Racking + Array (substeps: roof penetrations photo series, array edge alignment video, array perimeter setback video)
 2. Inverter identity + clearance (photo)
 3. Battery location + clearance (photo)
 4. PV + ESS disconnects (photo)
-5. Fire access pathways (photo)
-6. Labels / placards (photo)
-7. Main service panel (photo)
+5. Labels / placards (photo)
+6. Main service panel (photo)
+7. Conduit + wiring (photo)
 
 Rationale: these cover equipment identity, electrical connections, fire access, labeling, and workmanship verification.
 
@@ -66,17 +66,23 @@ Overall:
 - Clear photo vs video indicators on thumbnails and checklist items.
 - Thumbnails support quick retake when in Retry.
 - Overall progress visible throughout the flow.
-- Pass/fail readiness state only (no numeric score).
-- Readiness passes only when all items are Accepted.
-- Job Overview includes a compact permitted equipment summary (from `docs/PROJECT_DEFAULTS.md`).
+- Completion state only (no numeric score), e.g., Not started / In progress / Complete.
+- Complete is shown only when minimum required captures are Accepted.
+- Project Details includes the equipment list (from `docs/PROJECT_DEFAULTS.md`).
 
-## Screens (3-5 core)
+## Screens (core)
 
-- Job Overview: project context, permitted equipment summary, status, start capture.
-- Capture Checklist: grouped tasks with progress and required media types.
-- Capture Guidance: prompt + what-good-looks-like + capture action + auto-check result.
-- Review & Readiness: thumbnails, retake prompts, pass/fail state.
-- Submit: confirmation and mock submission.
+- Projects List: Pending/Complete tabs, table of projects, only Photos Needed row is actionable.
+- Project Details: customer + system details and equipment list, Start/Continue Capture CTA.
+- Capture Overview: accordion of steps with status, media type, and counts; opens first incomplete step.
+- Step-level Overview: accordion of substeps with acceptance criteria; Start/Continue capture per substep.
+- Capture Task Overview (Hub): instruction, thumbnail grid, count, Add capture CTA, Done disabled until minimum accepted.
+- Camera (Minimal): shutter + cancel only.
+- Inline Validation (Transient): checking state, accepted auto-return, retry feedback with retake/cancel.
+
+## Auto-check Scope
+
+Auto-checks validate media quality and completeness, not compliance.
 
 ## Success Criteria (prototype)
 

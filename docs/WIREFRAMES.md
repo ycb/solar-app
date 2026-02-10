@@ -1,129 +1,143 @@
 # Wireframes - Installer Capture (v1)
 
-Purpose: define wireframe-level content and states for the 3-5 screen mobile flow.
+Purpose: define wireframe-level content and states for the expanded mobile flow.
 
-Navigation: linear flow with Back/Next actions (no tabs).
+Navigation: linear, one task at a time. The user returns to the task hub after every capture.
 
-## Screen 1 - Job Overview / Start
+## Screen 1 - Projects List
+
+Tabs
+- Pending (active)
+- Complete
+
+Columns
+- Address
+- Date
+- Type
+- Size
+- Status
+
+Statuses to show (one project each)
+- Inspection Pending
+- Photos Needed (active row, bold)
+- Wiring
+- Mounting
+- Permit
+- Design
+
+CTA
+- Only the Photos Needed row is clickable.
+
+## Screen 2 - Project Details
+
+Project details
+- Customer name + address
+- Type (PV or PV + Storage)
+- Jurisdiction
+- System size
+- DC and AC
+
+Equipment list (two columns)
+- (10) Q.PEAK DUO BLK-6X+ 340 Solar Modules
+- (10) IQ7-60-US-2 [240V] Microinverters
+- (1) Tesla Powerwall
+- (1) AC Battery Inverter
+- (1) Racking
+- (1) Disconnects (PV + ESS)
+- (1) Labels and Placards
+- (1) Conduit
+
+Primary CTA
+- Start (or Continue) Capture
+
+## Screen 3 - Capture Overview (Entry)
 
 Header
-- SolarAPP+ logo
 - Project name: 123 Oak Street - Final Inspection
-- Status pill: Not started / In progress / Complete
-
-Project summary card
-- Address + jurisdiction
-- System type: Rooftop PV + Battery
+- Address + system type
 - Installer: ABC Solar
-- Required captures: 7
-- Progress: 0/7
-
-Permitted equipment summary (from docs/PROJECT_DEFAULTS.md)
-- PV modules: 20 x ~400W residential rooftop modules
-- Inverter: Hybrid inverter (Energy Hub class)
-- Battery: 1 x wall-mounted battery (Powerwall class)
-- Main service panel: Existing 200A
-- Disconnects: PV AC + ESS
-
-Primary actions
-- Start capture (primary)
-- View checklist (secondary)
-
-Footer note
-- Plain-language reminder: Capture photos or videos exactly as prompted. The app auto-checks clarity.
-
-## Screen 2 - Checklist + Progress
-
-Header
-- Title: Capture Checklist
-- Progress bar: 2/7 captured
-- Pass/fail state: Incomplete / Complete
 
 Checklist items (each row)
 - Title
-- Short prompt
-- Capture type pill: Photo or Video
-- Status chip: Pending / Captured / Accepted / Retry
-- CTA: Capture (or Retake if Retry)
+- Status: Not started / In progress / Complete
+- Required media type: Photo or Video
+- Count (e.g., "2 photos captured")
+- Tap to open the capture hub
 
 Checklist content (required)
-1. Array context + attachment - Video
-2. Inverter identity + clearance - Photo
-3. Battery location + clearance - Photo
-4. PV + ESS disconnects - Photo
-5. Fire access pathways - Photo
-6. Labels / placards - Photo
-7. Main service panel - Photo
+1. Racking + Array (substeps below)
+2. Inverter identity + clearance
+3. Battery location + clearance
+4. PV + ESS disconnects
+5. Labels / placards
+6. Main service panel
+7. Conduit + wiring
 
-Bottom sticky bar
-- Remaining count
-- Continue (next pending task)
+## Screen 4 - Step-level Overview
 
-## Screen 3 - Current Task (One-at-a-time focus)
+Accordion (opened to first incomplete step)
+Example for Racking + Array
 
-Header
-- Task title (e.g., Array context + attachment)
-- Capture type pill (Video or Photo)
-- Step indicator: 7 of 7
+I. Roof penetrations: (2) photos per attachment
+	•	Photo 1: Close-up (12–18 inches away perpendicular to flashing/penetration)
+	•	Photo 2: Step back 3–6 feet to show attachment location relative to rail line
+	Acceptance criteria:
+	•	Flashing fully visible, not cut off
+	•	No blur; edges sharp
+	•	Roof material around penetration visible (tiles/shingles)
+	•	If tiles: show any tile replacement/fit around flashing
 
-Guidance panel
-- What to capture (1-2 sentences)
-- What good looks like (bullets)
-- Duration hint when video is required (10-20 sec)
-- Reminder: retake if text unreadable
+II. Array edge alignment
 
-Automated check result (inline)
-- If auto-check fails, show the specific problem and the fix (e.g., "Label not readable - move closer and retake").
+III. Array perimeter
 
-Capture controls
-- Primary: Start capture
-- Secondary: Skip for now (optional)
+CTA
+- Start (or Continue) capture for the selected substep
 
-Example helper (optional, placeholder)
-- Illustration or text callout showing framing
+## Screen 5 - Capture Task Overview (Persistent hub)
 
-## Screen 4 - Review + Readiness
+This is the anchor screen for a capture group. The user returns here after every capture.
 
-Header
-- Title: Review captures
-- Pass/fail badge: Incomplete / Complete
-- Missing items count
+Content
+- Clear instruction in plain language
+  Example: "Capture a photo of each roof penetration where racking connects to the roof."
+- Thumbnail grid (0 -> n photos)
+- Counter (e.g., "0 of required captured")
+- Primary CTA: Add photo / Add video
+- Secondary CTA: Done (disabled until minimum accepted)
 
-Media grid
-- Thumbnails
-- Clear photo vs video indicator on each tile
-- Status chip per tile (Accepted / Retry / Captured)
-- Retake button on Retry tiles
+## Screen 6 - Camera (Minimal)
 
-Error state (required example)
-- At least one tile should be in Retry
-- Retry reason helper text (from auto-check) (e.g., "Label not readable" or "Clearance not visible")
-- Primary action on that tile: Retake capture
+No extra chrome.
+- Shutter button
+- Cancel (returns to Screen 2 without capture)
 
-Readiness checklist (pass/fail criteria)
-- Equipment matches permitted list
-- Electrical connections verified
-- Fire access pathways visible
-- Workmanship acceptable
+After capture -> auto-advance to validation.
 
-Primary action
-- Mark Complete (disabled until all required items are Accepted)
+## Screen 7 - Inline Processing / Validation (Transient)
 
-## Screen 5 - Submit
+This should feel fast and non-blocking.
 
-Header
-- Title: Complete
-- Status: Pass
+State: Checking
+- Spinner
+- "Checking photo quality..."
 
-Summary
-- 7/7 accepted
-- Includes 1 video
+Outcome A: Accepted
+- Subtle success state (green check)
+- "Photo accepted"
+- Auto-returns to Screen 2
 
-Primary action
-- Submit for inspection
+Outcome B: Needs retry
+- Specific feedback (e.g., "Image is blurry - steady the camera or move closer")
+- Primary: Retake photo (returns to Camera)
+- Secondary: Cancel (returns to Screen 2, photo discarded)
 
-Secondary action
-- Export package (optional placeholder)
+## Screen 2 (again) - Now with progress
+
+- Thumbnails visible
+- Count updated
+- Done enabled once minimum is accepted
+- User can add another capture or mark step complete
 
 ## State Model (shared)
 
